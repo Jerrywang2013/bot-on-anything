@@ -9,9 +9,16 @@ def _get_logger():
     log = logging.getLogger('log')
     log.setLevel(logging.INFO)
     console_handle = logging.StreamHandler(sys.stdout)
-    console_handle.setFormatter(logging.Formatter('[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s',
+    # [%(filename)s:%(lineno)d]
+    console_handle.setFormatter(logging.Formatter('[%(levelname)s][%(asctime)s][=%(thread)d=] - %(message)s',
                                                   datefmt='%Y-%m-%d %H:%M:%S'))
     log.addHandler(console_handle)
+
+    file_handler = logging.FileHandler('log/log.txt')
+    formatter = logging.Formatter('[%(levelname)s][%(asctime)s][=%(thread)d=] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    file_handler.setFormatter(formatter)
+    log.addHandler(file_handler)
+
     return log
 
 def close_log():
